@@ -11,6 +11,7 @@ export default function Playlist() {
         sx={{
           width: "100%",
           display: "flex",
+          background: "linear-gradient(#946868, #121212)",
           justifyContent: "flex-start",
           alignItems: "center",
           gap: 3,
@@ -19,7 +20,7 @@ export default function Playlist() {
       >
         <Avatar
           variant="square"
-          src="https://i.scdn.co/image/ab6761610000e5ebaf34798a1e63c949afb78b49"
+          src="https://i.scdn.co/image/ab67616d0000b2730c25f43b1a535d1e4c4d7dd6"
           sx={{
             boxShadow: 15,
             width: { sx: "100%", md: 235 },
@@ -39,7 +40,7 @@ export default function Playlist() {
               color: "text.primary",
             }}
           >
-            Dirty north
+            Skate or Die
           </Typography>
         </Box>
       </Box>

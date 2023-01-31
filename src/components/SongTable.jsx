@@ -2,6 +2,7 @@ import { Box, Divider, Grid } from "@mui/material";
 import React from "react";
 import { AccessTimeRounded } from "@mui/icons-material";
 import { width } from "@mui/system";
+import SongRow from "./SongRow";
 
 export default function SongTable() {
   return (
@@ -26,10 +27,15 @@ export default function SongTable() {
           Album
         </Grid>
 
-        <Grid item xs={3} sx={{}}>
+        <Grid item xs={3} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <AccessTimeRounded sx={{ width: 20, height: 20 }} />
         </Grid>
       </Grid>
+      {Array(50)
+        .fill(0)
+        .map(() => (
+          <SongRow />
+        ))}
     </Box>
   );
 }
