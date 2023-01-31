@@ -1,11 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
-import Home from "../pages/Home";
 import Sidebar from "./Sidebar";
+import Home from "../pages/Home";
 import Playlist from "../pages/Playlist";
+import { getAccessTokenFromStorage } from "../utils/getAccessTokenFromStorage";
+import { useSelector, useDispatch } from "react-redux";
+import { getPlaylist } from "../store/playlistSlice";
+import SpotifyWebApi from "spotify-web-api-node";
+import { redirectURL } from "../config";
 
 export default function Dashboard() {
+  const spotifyApi = new SpotifyWebApi({
+    clientId: import.meta.env.VITE_CLIENT_ID,
+    clientSecret: import.meta.env.VITE_CLIENT_SECRET,
+    redirectUri: redirectURL,
+  });
+
+  console.log(spotifyApi);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const accessToken = getAccessTokenFromStorage();
+
+    if (accessToken) {
+      async function onMount() {
+        await spotifyApi.setAccessToken(accessToken);
+        dispatch(getPlaylist(spotifyApi));
+      }
+      onMount();
+    }
+  }, []);
+
   return (
     <Box
       sx={{
@@ -23,7 +49,8 @@ export default function Dashboard() {
           <Route path="/playlist/:id" element={<Playlist />} />
         </Routes>
       </Box>
-      {/* playern går här */}
+
+      {/* Playern går här  */}
     </Box>
   );
 }
