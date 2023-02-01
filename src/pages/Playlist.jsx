@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Box, Typography } from "@mui/material";
 import { height } from "@mui/system";
 import SongTable from "../components/SongTable";
+import { useParams } from "react-router-dom";
 
-export default function Playlist() {
+export default function Playlist({ spotifyApi }) {
+  const { id } = useParams();
+  const [playlist, setPlaylist] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function getPlaylist() {
+      const playlistInfo = await spotifyApi.getPlaylist(id);
+      console.log(playlistInfo);
+      setPlaylist(playlistInfo.body);
+      setIsLoading(false);
+    }
+    getPlaylist();
+  }, [id]);
+
   return (
     <Box sx={{ bgcolor: "Background.paper", flex: 1, overflowY: "auto" }}>
       <Box
@@ -20,7 +35,7 @@ export default function Playlist() {
       >
         <Avatar
           variant="square"
-          src="https://i.scdn.co/image/ab67616d0000b2730c25f43b1a535d1e4c4d7dd6"
+          src={playlist?.images[0]?.url}
           sx={{
             boxShadow: 15,
             width: { sx: "100%", md: 235 },
@@ -40,11 +55,11 @@ export default function Playlist() {
               color: "text.primary",
             }}
           >
-            Skate or Die
+            {playlist?.name}
           </Typography>
         </Box>
       </Box>
-      <SongTable />
+      <SongTable songs={playlist?.tracks.items} isLoading={isLoading} />
     </Box>
   );
 }

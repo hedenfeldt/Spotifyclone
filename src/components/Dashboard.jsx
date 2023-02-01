@@ -46,7 +46,10 @@ export default function Dashboard() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/library" element={<div>library</div>} />
-          <Route path="/playlist/:id" element={<Playlist />} />
+          <Route
+            path="/playlist/:id"
+            element={<Playlist spotifyApi={spotifyApi} />}
+          />
         </Routes>
       </Box>
 
