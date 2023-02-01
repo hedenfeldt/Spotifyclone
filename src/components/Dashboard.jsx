@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getPlaylist } from "../store/playlistSlice";
 import SpotifyWebApi from "spotify-web-api-node";
 import { redirectURL } from "../config";
+import Player from "./Player";
 
 export default function Dashboard() {
   const spotifyApi = new SpotifyWebApi({
@@ -24,8 +25,8 @@ export default function Dashboard() {
     const accessToken = getAccessTokenFromStorage();
 
     if (accessToken) {
-      async function onMount() {
-        await spotifyApi.setAccessToken(accessToken);
+      function onMount() {
+        spotifyApi.setAccessToken(accessToken);
         dispatch(getPlaylist(spotifyApi));
       }
       onMount();
@@ -53,7 +54,7 @@ export default function Dashboard() {
         </Routes>
       </Box>
 
-      {/* Playern går här  */}
+      <Player spotifyApi={spotifyApi} />
     </Box>
   );
 }
