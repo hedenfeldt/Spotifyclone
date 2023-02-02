@@ -22,16 +22,16 @@ export default function PlayerOverlay({
   return (
     <Box
       sx={{
-        bgcolor: "Background.paper",
-        positioin: "fixed",
+        bgcolor: "background.paper",
+        position: "fixed",
         height: "100vh",
+        width: "100%",
         transform: playerOverlayIsOpen
           ? "translateY(0px)"
           : "translateY(100vh)",
         transition: "transfrom 300ms",
         top: 0,
         left: 0,
-        width: "100%",
         display: { xs: "block", md: "none" },
       }}
     >
