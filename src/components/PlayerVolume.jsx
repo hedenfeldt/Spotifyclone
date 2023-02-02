@@ -10,7 +10,11 @@ export default function PlayerVolume({ player }) {
     <Grid
       item
       xs={3}
-      sx={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}
+      sx={{
+        display: { xs: "none", md: "flex" },
+        alignItems: "center",
+        justifyContent: "flex-end",
+      }}
     >
       <Stack
         spacing={2}

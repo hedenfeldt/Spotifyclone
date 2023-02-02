@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import PlayerController from "./PlayerController";
 import PlayerVolume from "./PlayerVolume";
 import { getAccessTokenFromStorage } from "../utils/getAccessTokenFromStorage";
+import PlayerOverlay from "./PlayerOverlay";
 
 export default function Player({ spotifyApi }) {
   const [localPlayer, setPlayer] = useState(null);
@@ -81,6 +82,7 @@ export default function Player({ spotifyApi }) {
       <Grid
         container
         px={3}
+        onClick={() => setPlayerOverlayIsOpen((c) => !c)}
         sx={{
           height: 100,
           width: "100%",
@@ -88,7 +90,12 @@ export default function Player({ spotifyApi }) {
           bgcolor: "Background.paper",
         }}
       >
-        <Grid item xs={3} sx={{ display: "flex", alignItems: "center" }}>
+        <Grid
+          item
+          xs={12}
+          md={3}
+          sx={{ display: "flex", alignItems: "center" }}
+        >
           <Avatar
             src={current_track.album.images[0]?.url}
             variant="square"
@@ -106,7 +113,7 @@ export default function Player({ spotifyApi }) {
         <Grid
           item
           sx={{
-            display: "flex",
+            display: { xs: "none", md: "flex" },
             flex: 1,
             justifyContent: "center",
             alignItems: "center",
@@ -121,6 +128,15 @@ export default function Player({ spotifyApi }) {
         </Grid>
         <PlayerVolume player={localPlayer} />
       </Grid>
+      <PlayerOverlay
+        playerOverlayIsOpen={playerOverlayIsOpen}
+        closeOverlay={() => setPlayerOverlayIsOpen(false)}
+        song={current_track}
+        is_paused={is_paused}
+        progress={progress}
+        duration={duration}
+        player={localPlayer}
+      />
     </Box>
   );
 }
