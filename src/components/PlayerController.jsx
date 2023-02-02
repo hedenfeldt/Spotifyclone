@@ -1,6 +1,7 @@
 import { IconButton, Slider, Stack, Typography } from "@mui/material";
-import React from "react";
-import { SkipPrevious, SkipNext, PlayArrow } from "@mui/icons-material";
+import React, { useEffect, useState } from "react";
+import { SkipPrevious, SkipNext, PlayArrow, Pause } from "@mui/icons-material";
+import { formatTime } from "../utils/formatTime";
 
 export default function PlayerController({
   player,
@@ -8,6 +9,22 @@ export default function PlayerController({
   duration,
   progress,
 }) {
+  const [currentProgress, setCurrentProgress] = useState(progress / 1000);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!is_paused && player) {
+        setCurrentProgress((c) => c + 1);
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [is_paused, player]);
+
+  useEffect(() => {
+    setCurrentProgress(progress / 1000);
+  }, [progress]);
+  console.log(player);
+
   return (
     <Stack
       spacing={0}
@@ -38,13 +55,17 @@ export default function PlayerController({
             player.togglePlay();
           }}
         >
-          <PlayArrow sx={{ width: 28, height: 28 }} />
+          {is_paused ? (
+            <PlayArrow sx={{ width: 28, height: 28 }} />
+          ) : (
+            <Pause sx={{ width: 28, height: 28 }} />
+          )}
         </IconButton>
         <IconButton
           size="small"
           sx={{ color: "text.primary" }}
           onClick={() => {
-            player.SkipNext();
+            player.nextTrack();
           }}
         >
           <SkipNext sx={{ width: 28, height: 28 }} />
@@ -61,14 +82,25 @@ export default function PlayerController({
           variant="body"
           sx={{ color: "text.secondary", fontSize: 12 }}
         >
-          1:23
+          {formatTime(progress)}
         </Typography>
-        <Slider size="medium" />
+        <Slider
+          size="medium"
+          value={currentProgress}
+          min={0}
+          max={duration / 1000}
+          onChange={(_, v) => {
+            setCurrentProgress(v);
+          }}
+          onChangeCommitted={(_, v) => {
+            player.seek(v * 1000);
+          }}
+        />
         <Typography
           variant="body1"
           sx={{ color: "text.secondary", fontSize: 12 }}
         >
-          1:23
+          {formatTime(duration)}
         </Typography>
       </Stack>
     </Stack>
