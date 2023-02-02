@@ -14,6 +14,7 @@ export default function Playlist({ spotifyApi }) {
       const playlistInfo = await spotifyApi.getPlaylist(id);
       console.log(playlistInfo);
       setPlaylist(playlistInfo.body);
+
       setIsLoading(false);
     }
     getPlaylist();
@@ -59,7 +60,19 @@ export default function Playlist({ spotifyApi }) {
           </Typography>
         </Box>
       </Box>
-      <SongTable songs={playlist?.tracks.items} isLoading={isLoading} />
+      <SongTable
+        songs={playlist?.tracks.items.map((song, i) => ({
+          ...song,
+          track: {
+            ...song.track,
+            context_uri: `spotify:playlist:${id}`,
+            position: i,
+            offset: { position: i },
+          },
+        }))}
+        isLoading={isLoading}
+        spotifyApi={spotifyApi}
+      />
     </Box>
   );
 }

@@ -2,9 +2,14 @@ import { Box, Avatar, Typography, Grid, Skeleton } from "@mui/material";
 import React from "react";
 import { formatTime } from "../utils/formatTime";
 
-export default function SongRow({ song, index, isLoading }) {
+export default function SongRow({ song, index, isLoading, spotifyApi }) {
+  async function handleClick() {
+    console.log(song);
+    await spotifyApi.play(song);
+  }
   return (
     <Grid
+      onClick={handleClick}
       container
       px={2}
       py={1}

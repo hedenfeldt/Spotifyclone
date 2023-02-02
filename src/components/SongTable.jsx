@@ -4,7 +4,7 @@ import { AccessTimeRounded } from "@mui/icons-material";
 import { width } from "@mui/system";
 import SongRow from "./SongRow";
 
-export default function SongTable({ songs, isLoading }) {
+export default function SongTable({ songs, isLoading, spotifyApi }) {
   return (
     <Box sx={{ xs: 3, md: 4 }}>
       <Divider />
@@ -36,7 +36,7 @@ export default function SongTable({ songs, isLoading }) {
             .fill(0)
             .map((_, index) => <SongRow isLoading index={index} />)
         : songs?.map((song, index) => (
-            <SongRow song={song.track} index={index} />
+            <SongRow song={song.track} index={index} spotifyApi={spotifyApi} />
           ))}
     </Box>
   );
