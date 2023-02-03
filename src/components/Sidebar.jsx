@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import SidebarPlaylistItem from "./SidebarPlaylistItem";
 import { useSelector } from "react-redux";
+import LinkIcon from "@mui/icons-material/Link";
 
 export default function Sidebar() {
   const { albumList } = useSelector((state) => state.playlist);
@@ -32,6 +33,21 @@ export default function Sidebar() {
           }}
         >
           <HomeRoundedIcon sx={{ fontSize: 28, marginRight: 1 }} /> Home
+        </Box>
+      </Link>
+      <Link to="/library" style={{ textDecoration: "none" }}>
+        <Box
+          px={3}
+          py={1}
+          sx={{
+            color: "text.primary",
+            fontWeight: "bold",
+            fontSize: 14,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <LinkIcon sx={{ fontSize: 28, marginRight: 1 }} /> ditt biblotek
         </Box>
       </Link>
 
